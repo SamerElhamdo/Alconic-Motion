@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:oklch(0.14 0.02 285);color:oklch(0.96 0.01 285);font-family:Geist,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:oklch(0.8 0.14 295)}a:hover{color:oklch(0.9 0.1 295)}
+textarea{font-family:inherit}
+*{scrollbar-color:oklch(0.35 0.03 285) transparent}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</helmet>
+<div style="height:100vh;min-height:860px;min-width:1280px;display:flex;flex-direction:column;background:oklch(0.14 0.02 285)">
+
+<sc-if value="{{ showStateBar }}" hint-placeholder-val="{{ true }}">
+<div style="height:38px;flex:none;display:flex;align-items:center;gap:12px;padding:0 20px;background:oklch(0.11 0.02 285);border-bottom:1px solid oklch(0.26 0.03 285)">
+  <span style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:oklch(0.66 0.03 285)">Studio states</span>
+  <div style="display:flex;gap:4px">
+    <sc-for list="{{ states }}" as="st" hint-placeholder-count="7">
+      <button onClick="{{ st.go }}" style="display:flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:7px;border:1px solid {{ st.border }};background:{{ st.bg }};color:{{ st.color }};font:500 12px Geist,sans-serif;cursor:pointer"><span style="font-family:'Geist Mono',monospace;font-size:11px;opacity:.7">{{ st.num }}</span>{{ st.label }}</button>
+    </sc-for>
+  </div>
+</div>
+</sc-if>
+
+<header style="height:60px;flex:none;display:flex;align-items:center;gap:28px;padding:0 20px;border-bottom:1px solid oklch(0.26 0.03 285)">
+  <div style="display:flex;align-items:center;gap:10px">
+    <div style="width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,oklch(0.72 0.19 295),oklch(0.62 0.2 255));display:grid;place-items:center;font-weight:700;font-size:16px;color:oklch(0.14 0.02 285)">A</div>
+    <span style="font-weight:600;font-size:18px;letter-spacing:-.01em">Alconic Motion</span>
+  </div>
+  <nav style="display:flex;gap:4px">
+    <a style="padding:7px 14px;border-radius:8px;font-size:14px;color:oklch(0.74 0.03 285);text-decoration:none" style-hover="color:oklch(0.96 0.01 285)">Home</a>
+    <a style="padding:7px 14px;border-radius:8px;font-size:14px;color:oklch(0.96 0.01 285);background:oklch(0.25 0.04 290);text-decoration:none;font-weight:500">Create</a>
+    <a style="padding:7px 14px;border-radius:8px;font-size:14px;color:oklch(0.74 0.03 285);text-decoration:none" style-hover="color:oklch(0.96 0.01 285)">Library</a>
+    <a style="padding:7px 14px;border-radius:8px;font-size:14px;color:oklch(0.74 0.03 285);text-decoration:none" style-hover="color:oklch(0.96 0.01 285)">Models</a>
+    <a style="padding:7px 14px;border-radius:8px;font-size:14px;color:oklch(0.74 0.03 285);text-decoration:none" style-hover="color:oklch(0.96 0.01 285)">Templates</a>
+  </nav>
+  <div style="flex:1"></div>
+  <div style="width:280px;height:36px;display:flex;align-items:center;gap:8px;padding:0 10px;border-radius:9px;background:oklch(0.19 0.02 285);border:1px solid oklch(0.28 0.03 285);color:oklch(0.66 0.03 285);font-size:13px">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+    <span style="flex:1">Search assets, projects...</span>
+    <span style="font-family:'Geist Mono',monospace;font-size:11px;padding:2px 6px;border-radius:5px;background:oklch(0.25 0.03 285)">⌘ K</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:9px;background:oklch(0.19 0.02 285);border:1px solid oklch(0.28 0.03 285);font-size:14px;font-weight:600"><span style="width:8px;height:8px;border-radius:50%;background:oklch(0.84 0.14 170)"></span>1,240 cr</div>
+  <div style="width:36px;height:36px;border-radius:50%;background:oklch(0.3 0.05 295);display:grid;place-items:center;font-size:13px;font-weight:600">SK</div>
+</header>
+
+<main style="flex:1;min-height:0;display:grid;grid-template-columns:340px minmax(0,1fr) 360px;gap:12px;padding:12px">
+
+  <section style="min-height:0;display:flex;flex-direction:column;border-radius:16px;background:oklch(0.18 0.02 285);border:1px solid oklch(0.27 0.03 285)">
+    <div style="padding:18px 18px 12px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+      <div>
+        <div style="font-size:19px;font-weight:600;letter-spacing:-.01em">AI Director</div>
+        <div style="font-size:13px;color:oklch(0.74 0.03 285);margin-top:3px">Your creative partner from idea to the final render.</div>
+      </div>
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;padding:4px 8px;border-radius:6px;background:oklch(0.24 0.03 285);color:oklch(0.8 0.03 285);white-space:nowrap">{{ doneCount }}/7</span>
+    </div>
+    <div style="flex:1;min-height:0;overflow:auto;padding:0 12px 12px;display:flex;flex-direction:column;gap:6px">
+      <sc-for list="{{ agents }}" as="a" hint-placeholder-count="7">
+        <div style="display:flex;align-items:center;gap:12px;padding:9px 12px 9px 9px;border-radius:12px;background:{{ a.rowBg }};border:1px solid {{ a.rowBorder }}">
+          <div style="position:relative;width:48px;height:48px;flex:none;display:grid;place-items:center;border-radius:12px;background:{{ a.tile }}">
+            <div style="position:absolute;top:5px;left:23px;width:2px;height:7px;background:{{ a.body }}"></div>
+            <div style="position:absolute;top:2px;left:21px;width:6px;height:6px;border-radius:50%;background:{{ a.eye }};box-shadow:0 0 8px {{ a.eye }}"></div>
+            <div style="margin-top:7px;width:36px;height:28px;border-radius:11px;background:{{ a.body }};display:grid;place-items:center;box-shadow:inset 0 -3px 0 rgba(0,0,0,.28),inset 0 2px 0 rgba(255,255,255,.35)">
+              <div style="width:26px;height:14px;border-radius:7px;background:oklch(0.12 0.02 285);display:flex;align-items:center;justify-content:center;gap:6px">
+                <div style="width:5px;height:{{ a.eyeH }};border-radius:3px;background:{{ a.eye }};box-shadow:0 0 6px {{ a.eye }}"></div>
+                <div style="width:5px;height:{{ a.eyeH }};border-radius:3px;background:{{ a.eye }};box-shadow:0 0 6px {{ a.eye }}"></div>
+              </div>
+            </div>
+          </div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:14px;font-weight:600">{{ a.title }}</div>
+            <div style="font-size:12px;color:oklch(0.72 0.03 285);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ a.d }}</div>
+            <sc-if value="{{ a.isWork }}" hint-placeholder-val="{{ false }}">
+              <div style="height:3px;border-radius:2px;background:oklch(0.28 0.03 285);margin-top:7px;overflow:hidden"><div style="height:100%;width:{{ a.pctW }};background:oklch(0.7 0.19 295)"></div></div>
+            </sc-if>
+          </div>
+          <div style="flex:none;display:flex;align-items:center;gap:6px;font-size:12px;color:{{ a.statusColor }}">
+            <sc-if value="{{ a.isDone }}" hint-placeholder-val="{{ false }}"><span style="width:16px;height:16px;border-radius:50%;background:oklch(0.84 0.14 170);color:oklch(0.18 0.02 285);display:grid;place-items:center;font-size:10px;font-weight:700">✓</span></sc-if>
+            <sc-if value="{{ a.isWork }}" hint-placeholder-val="{{ false }}">{{ spinner }}</sc-if>
+            <sc-if value="{{ a.isWait }}" hint-placeholder-val="{{ false }}"><span style="width:14px;height:14px;border-radius:50%;border:1.5px dashed oklch(0.55 0.03 285)"></span></sc-if>
+            <sc-if value="{{ a.isFail }}" hint-placeholder-val="{{ false }}"><span style="width:16px;height:16px;border-radius:50%;background:oklch(0.72 0.17 25);color:oklch(0.18 0.02 285);display:grid;place-items:center;font-size:11px;font-weight:700">!</span></sc-if>
+            {{ a.label }}
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin:0 12px 12px;padding:12px;border-radius:14px;background:oklch(0.15 0.02 285);border:1px solid {{ inputBorder }}">
+      <textarea value="{{ idea }}" onChange="{{ onIdea }}" placeholder="Describe your video idea..." rows="2" style="width:100%;resize:none;border:0;outline:0;background:transparent;color:oklch(0.96 0.01 285);font-size:14px;line-height:1.45"></textarea>
+      <div style="font-size:12px;color:oklch(0.62 0.03 285);margin:2px 0 10px">Try: "A cinematic whale rising from the ocean, neon glow, 10 seconds..."</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button onClick="{{ inspire }}" style="height:28px;padding:0 10px;border-radius:7px;border:1px solid oklch(0.3 0.03 285);background:oklch(0.2 0.02 285);color:oklch(0.86 0.02 285);font:500 12px Geist,sans-serif;cursor:pointer" style-hover="background:oklch(0.24 0.03 285)">Inspire me</button>
+        <button style="height:28px;padding:0 10px;border-radius:7px;border:1px solid oklch(0.3 0.03 285);background:oklch(0.2 0.02 285);color:oklch(0.86 0.02 285);font:500 12px Geist,sans-serif;cursor:pointer" style-hover="background:oklch(0.24 0.03 285)">Improve prompt</button>
+        <button style="height:28px;padding:0 10px;border-radius:7px;border:1px solid oklch(0.3 0.03 285);background:oklch(0.2 0.02 285);color:oklch(0.86 0.02 285);font:500 12px Geist,sans-serif;cursor:pointer" style-hover="background:oklch(0.24 0.03 285)">Use a template</button>
+        <div style="flex:1"></div>
+        <button style="width:38px;height:38px;border-radius:50%;border:0;background:oklch(0.7 0.19 295);color:oklch(0.14 0.02 285);display:grid;place-items:center;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <section style="min-height:0;display:flex;flex-direction:column;border-radius:16px;background:oklch(0.18 0.02 285);border:1px solid oklch(0.27 0.03 285);overflow:hidden">
+    <div style="height:52px;flex:none;display:flex;align-items:center;gap:10px;padding:0 16px">
+      <span style="font-size:15px;font-weight:600">Preview</span>
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;padding:3px 8px;border-radius:6px;background:{{ badgeBg }};color:{{ badgeColor }}">{{ badge }}</span>
+      <div style="flex:1"></div>
+      <div style="height:30px;display:flex;align-items:center;padding:0 10px;border-radius:8px;border:1px solid oklch(0.3 0.03 285);font-size:13px;color:oklch(0.86 0.02 285)">16:9 ▾</div>
+      <div style="height:30px;display:flex;align-items:center;padding:0 10px;border-radius:8px;border:1px solid oklch(0.3 0.03 285);font-size:13px;color:oklch(0.86 0.02 285)">720p ▾</div>
+    </div>
+
+    <div style="flex:1;min-height:0;padding:0 16px;display:flex">
+      <div style="position:relative;flex:1;border-radius:12px;overflow:hidden;background:repeating-linear-gradient(135deg,oklch(0.2 0.03 285) 0 12px,oklch(0.22 0.035 285) 12px 24px);border:1px solid oklch(0.3 0.03 285)">
+        <sc-if value="{{ isIdle }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;display:grid;place-items:center;background:oklch(0.16 0.02 285 / .88)">
+            <div style="text-align:center;max-width:360px">
+              <div style="font-size:22px;font-weight:600;letter-spacing:-.01em">Start with an idea</div>
+              <div style="font-size:14px;color:oklch(0.74 0.03 285);margin-top:8px;line-height:1.5;text-wrap:pretty">Describe your video in the AI Director panel. Seven agents will take it from story to final render.</div>
+              <button onClick="{{ inspire }}" style="margin-top:18px;height:36px;padding:0 16px;border-radius:9px;border:1px solid oklch(0.4 0.08 295);background:oklch(0.24 0.05 295);color:oklch(0.96 0.01 285);font:500 13px Geist,sans-serif;cursor:pointer">Use example prompt</button>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isDirecting }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;display:grid;place-items:center;background:oklch(0.16 0.02 285 / .8)">
+            <div style="text-align:center">
+              <div style="display:flex;justify-content:center">{{ spinnerLg }}</div>
+              <div style="font-size:20px;font-weight:600;margin-top:16px">Directing your video</div>
+              <div style="font-size:14px;color:oklch(0.74 0.03 285);margin-top:6px">{{ activeLine }}</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isStoryboard }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;padding:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));gap:12px;background:oklch(0.16 0.02 285)">
+            <sc-for list="{{ scenes }}" as="sc" hint-placeholder-count="6">
+              <div style="display:flex;flex-direction:column;gap:6px;min-height:0">
+                <div style="flex:1;min-height:0;border-radius:9px;background:repeating-linear-gradient(135deg,oklch(0.22 0.03 285) 0 10px,oklch(0.25 0.035 285) 10px 20px);border:1px solid oklch(0.3 0.03 285);display:grid;place-items:center;font-family:'Geist Mono',monospace;font-size:11px;color:oklch(0.7 0.03 285)"><span>SCENE {{ sc.n }} FRAME</span></div>
+                <div style="display:flex;gap:8px;font-size:12px"><span style="font-family:'Geist Mono',monospace;color:oklch(0.8 0.14 295)">{{ sc.t }}</span><span style="color:oklch(0.8 0.02 285)">{{ sc.c }}</span></div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isGenerating }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;display:grid;place-items:center;background:oklch(0.16 0.02 285 / .72)">
+            <div style="width:320px;text-align:center">
+              <div style="font-family:'Geist Mono',monospace;font-size:40px;font-weight:500">{{ genPct }}</div>
+              <div style="height:4px;border-radius:2px;background:oklch(0.3 0.03 285);margin:14px 0 12px;overflow:hidden"><div style="height:100%;width:{{ genW }};background:oklch(0.7 0.19 295)"></div></div>
+              <div style="font-size:14px;color:oklch(0.8 0.02 285)">Vision agent · compositing scene {{ genScene }} of 6</div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isPlayer }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;inset:0;display:grid;place-items:center">
+            <span style="position:absolute;top:14px;left:14px;font-family:'Geist Mono',monospace;font-size:11px;padding:4px 8px;border-radius:6px;background:oklch(0.14 0.02 285 / .8);color:oklch(0.74 0.03 285)">VIDEO PLACEHOLDER · 16:9</span>
+            <button onClick="{{ togglePlay }}" style="width:68px;height:68px;border-radius:50%;border:1px solid oklch(1 0 0 / .25);background:oklch(0.14 0.02 285 / .7);color:oklch(0.96 0.01 285);display:grid;place-items:center;cursor:pointer;font-size:22px">{{ playIcon }}</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+          <div style="position:absolute;inset:0;display:grid;place-items:center;background:oklch(0.14 0.02 285 / .85)">
+            <div style="width:380px;padding:20px;border-radius:14px;background:oklch(0.2 0.03 285);border:1px solid oklch(0.72 0.17 25 / .5)">
+              <div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:50%;background:oklch(0.72 0.17 25);color:oklch(0.18 0.02 285);display:grid;place-items:center;font-weight:700;font-size:13px">!</span><span style="font-size:16px;font-weight:600">Audio agent couldn't finish</span></div>
+              <div style="font-size:13px;color:oklch(0.8 0.02 285);margin-top:10px;line-height:1.5">SFX generation timed out on scene 4. Your credits weren't charged.</div>
+              <div style="display:flex;gap:8px;margin-top:16px">
+                <button onClick="{{ cta }}" style="height:34px;padding:0 14px;border-radius:8px;border:0;background:oklch(0.96 0.01 285);color:oklch(0.16 0.02 285);font:600 13px Geist,sans-serif;cursor:pointer">Retry audio</button>
+                <button onClick="{{ cta }}" style="height:34px;padding:0 14px;border-radius:8px;border:1px solid oklch(0.34 0.03 285);background:transparent;color:oklch(0.9 0.02 285);font:500 13px Geist,sans-serif;cursor:pointer">Skip audio</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ isPlayer }}" hint-placeholder-val="{{ true }}">
+      <div style="height:48px;flex:none;display:flex;align-items:center;gap:14px;padding:0 16px">
+        <button onClick="{{ togglePlay }}" style="width:32px;height:32px;border-radius:50%;border:1px solid oklch(0.34 0.03 285);background:oklch(0.22 0.02 285);color:oklch(0.96 0.01 285);cursor:pointer;font-size:12px">{{ playIcon }}</button>
+        <span style="font-family:'Geist Mono',monospace;font-size:13px">{{ timeLabel }} <span style="color:oklch(0.62 0.03 285)">/ 00:16.00</span></span>
+        <div onClick="{{ seek }}" style="position:relative;flex:1;height:18px;display:flex;align-items:center;cursor:pointer">
+          <div style="width:100%;height:4px;border-radius:2px;background:oklch(0.3 0.03 285)"></div>
+          <div style="position:absolute;left:0;height:4px;border-radius:2px;width:{{ playPct }};background:oklch(0.7 0.19 295)"></div>
+          <div style="position:absolute;left:{{ playPct }};width:14px;height:14px;margin-left:-7px;border-radius:50%;background:oklch(0.96 0.01 285)"></div>
+        </div>
+        <span style="font-size:13px;color:oklch(0.8 0.02 285)">1080p ▾</span>
+      </div>
+    </sc-if>
+
+    <div style="flex:none;margin:8px 16px 16px;padding:10px 12px 12px;border-radius:12px;background:oklch(0.15 0.02 285);border:1px solid oklch(0.27 0.03 285)">
+      <sc-if value="{{ hasTimeline }}" hint-placeholder-val="{{ true }}">
+        <div style="position:relative">
+          <div style="display:flex;justify-content:space-between;font-family:'Geist Mono',monospace;font-size:11px;color:oklch(0.62 0.03 285);padding-bottom:6px">
+            <sc-for list="{{ ruler }}" as="r" hint-placeholder-count="9"><span>{{ r }}</span></sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px;height:54px">
+            <sc-for list="{{ scenes }}" as="sc" hint-placeholder-count="6">
+              <div style="border-radius:6px;background:repeating-linear-gradient(135deg,oklch(0.22 0.03 285) 0 8px,oklch(0.25 0.035 285) 8px 16px);border:1px solid oklch(0.3 0.03 285);display:grid;place-items:center;font-family:'Geist Mono',monospace;font-size:10px;color:oklch(0.66 0.03 285)"><span>S{{ sc.n }}</span></div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:5fr 4fr 5fr;gap:3px;margin-top:6px">
+            <div style="padding:6px 10px;border-radius:6px;background:oklch(0.2 0.03 285);font-size:12px;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:oklch(0.7 0.19 295)"></span>Understanding</div>
+            <div style="padding:6px 10px;border-radius:6px;background:oklch(0.2 0.03 285);font-size:12px;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:oklch(0.74 0.19 350)"></span>Burst</div>
+            <div style="padding:6px 10px;border-radius:6px;background:oklch(0.2 0.03 285);font-size:12px;display:flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:oklch(0.74 0.14 235)"></span>Brand</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+            <span style="font-size:12px;color:oklch(0.8 0.02 285);width:130px;flex:none">Ocean Rise <span style="color:oklch(0.62 0.03 285)">(SFX only)</span></span>
+            <div style="flex:1;height:34px;display:flex;align-items:center;gap:2px">
+              <sc-for list="{{ wave }}" as="w" hint-placeholder-count="80"><div style="flex:1;height:{{ w.h }};border-radius:1px;background:{{ w.c }}"></div></sc-for>
+            </div>
+          </div>
+          <div style="position:absolute;top:18px;bottom:0;left:{{ playPct }};width:2px;margin-left:-1px;background:oklch(0.96 0.01 285);pointer-events:none"></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ noTimeline }}" hint-placeholder-val="{{ false }}">
+        <div style="height:150px;border-radius:9px;border:1px dashed oklch(0.34 0.03 285);display:grid;place-items:center;font-size:13px;color:oklch(0.66 0.03 285)">The timeline builds as agents finish the storyboard.</div>
+      </sc-if>
+    </div>
+  </section>
+
+  <section style="min-height:0;display:flex;flex-direction:column;border-radius:16px;background:oklch(0.18 0.02 285);border:1px solid oklch(0.27 0.03 285)">
+    <div style="margin:12px;padding:4px;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;border-radius:11px;background:oklch(0.15 0.02 285)">
+      <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="3">
+        <button onClick="{{ tb.go }}" style="height:34px;border-radius:8px;border:1px solid {{ tb.border }};background:{{ tb.bg }};color:{{ tb.color }};font:500 13px Geist,sans-serif;cursor:pointer">{{ tb.label }}</button>
+      </sc-for>
+    </div>
+    <div style="flex:1;min-height:0;overflow:auto;padding:4px 16px 16px;display:flex;flex-direction:column;gap:18px">
+      <sc-if value="{{ tabContent }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:13px;font-weight:600">Prompt</div>
+          <div style="padding:12px;border-radius:10px;background:oklch(0.15 0.02 285);border:1px solid oklch(0.28 0.03 285);font-size:13px;line-height:1.55;color:oklch(0.9 0.02 285)">A cinematic whale rising from the ocean, glowing neon blue and purple, water particles, dramatic lighting, premium style, 10 seconds, vertical energy, no text.<div style="text-align:right;font-family:'Geist Mono',monospace;font-size:10px;color:oklch(0.6 0.03 285);margin-top:6px">158/1000</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:13px;font-weight:600">Negative prompt</div>
+          <div style="padding:12px;border-radius:10px;background:oklch(0.15 0.02 285);border:1px solid oklch(0.28 0.03 285);font-size:13px;color:oklch(0.9 0.02 285)">text, logo, watermark, low quality, blurry, deformed<div style="text-align:right;font-family:'Geist Mono',monospace;font-size:10px;color:oklch(0.6 0.03 285);margin-top:6px">42/500</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;color:oklch(0.74 0.03 285)">Duration</span><div style="height:36px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-radius:8px;border:1px solid oklch(0.3 0.03 285);font-size:13px">10 s<span>▾</span></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;color:oklch(0.74 0.03 285)">Aspect ratio</span><div style="height:36px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-radius:8px;border:1px solid oklch(0.3 0.03 285);font-size:13px">16:9<span>▾</span></div></div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;color:oklch(0.74 0.03 285)">Resolution</span><div style="height:36px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-radius:8px;border:1px solid oklch(0.3 0.03 285);font-size:13px">720p (HD)<span>▾</span></div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:13px;font-weight:600">Style</div>
+          <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px">
+            <sc-for list="{{ styles }}" as="sy" hint-placeholder-count="5">
+              <button onClick="{{ sy.go }}" style="display:flex;flex-direction:column;gap:5px;padding:0;border:0;background:transparent;cursor:pointer;color:oklch(0.86 0.02 285)">
+                <div style="width:100%;aspect-ratio:1;border-radius:9px;background:repeating-linear-gradient(135deg,oklch(0.22 0.03 285) 0 6px,oklch(0.26 0.04 285) 6px 12px);outline:2px solid {{ sy.ring }};outline-offset:1px"></div>
+                <span style="font:500 11px Geist,sans-serif;text-align:center">{{ sy.label }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ tabBrand }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:13px;font-weight:600">Color palette</div>
+          <div style="display:flex;gap:10px">
+            <sc-for list="{{ palette }}" as="p" hint-placeholder-count="5">
+              <button onClick="{{ p.go }}" style="width:34px;height:34px;border-radius:50%;border:0;background:{{ p.c }};outline:2px solid {{ p.ring }};outline-offset:2px;cursor:pointer"></button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:13px;font-weight:600">Brand style</div>
+          <div style="height:38px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-radius:8px;border:1px solid oklch(0.3 0.03 285);font-size:13px">Alconic (Default)<span>▾</span></div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ tabMedia }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:4px;display:grid;grid-template-columns:repeat(3,1fr);gap:4px;border-radius:10px;background:oklch(0.15 0.02 285)">
+          <sc-for list="{{ mediaOpts }}" as="m" hint-placeholder-count="3">
+            <button onClick="{{ m.go }}" style="height:32px;border-radius:7px;border:0;background:{{ m.bg }};color:{{ m.color }};font:500 12px Geist,sans-serif;cursor:pointer">{{ m.label }}</button>
+          </sc-for>
+        </div>
+        <div style="padding:28px 16px;border-radius:12px;border:1.5px dashed oklch(0.38 0.04 285);text-align:center">
+          <div style="font-size:14px;font-weight:500">Drag &amp; drop an image or video</div>
+          <div style="font-size:12px;color:oklch(0.66 0.03 285);margin-top:4px">PNG, JPG, MP4, MOV up to 200 MB</div>
+        </div>
+      </sc-if>
+    </div>
+  </section>
+</main>
+
+<footer style="height:88px;flex:none;display:flex;align-items:center;gap:24px;padding:0 20px;border-top:1px solid oklch(0.26 0.03 285);background:oklch(0.16 0.02 285)">
+  <div style="width:104px;height:58px;flex:none;border-radius:8px;background:repeating-linear-gradient(135deg,oklch(0.22 0.03 285) 0 8px,oklch(0.25 0.035 285) 8px 16px);display:grid;place-items:center;font-family:'Geist Mono',monospace;font-size:10px;color:oklch(0.66 0.03 285)">THUMB</div>
+  <div style="min-width:0;width:300px">
+    <div style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">A cinematic whale rising from the ocean...</div>
+    <div style="display:flex;gap:14px;margin-top:6px;font-size:12px;color:oklch(0.74 0.03 285)"><span>10s</span><span>16:9</span><span>720p</span><span>Cinematic</span></div>
+  </div>
+  <div style="flex:1"></div>
+  <div style="display:flex;flex-direction:column;gap:5px"><span style="font-size:12px;color:oklch(0.74 0.03 285)">Video model</span><div style="width:200px;height:36px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-radius:8px;border:1px solid oklch(0.3 0.03 285);font-size:13px">Seedance 2.5 · 720p<span>▾</span></div></div>
+  <div style="display:flex;flex-direction:column;gap:5px"><span style="font-size:12px;color:oklch(0.74 0.03 285)">Upscale (optional)</span><div style="width:200px;height:36px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;border-radius:8px;border:1px solid oklch(0.3 0.03 285);font-size:13px">Upscale 4K · Topaz<span>▾</span></div></div>
+  <div style="width:1px;height:44px;background:oklch(0.28 0.03 285)"></div>
+  <div style="display:flex;flex-direction:column;gap:2px"><span style="font-size:12px;color:oklch(0.74 0.03 285)">Estimated cost</span><span style="font-size:22px;font-weight:600;letter-spacing:-.01em">98 <span style="font-size:15px;font-weight:500">credits</span></span></div>
+  <button onClick="{{ cta }}" style="height:50px;min-width:200px;padding:0 22px;border-radius:12px;border:0;background:{{ ctaBg }};color:oklch(0.14 0.02 285);font:600 15px Geist,sans-serif;cursor:pointer;opacity:{{ ctaOpacity }}">{{ ctaLabel }} →</button>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialState&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;directing&quot;,&quot;storyboard&quot;,&quot;generating&quot;,&quot;preview&quot;,&quot;error&quot;,&quot;done&quot;],&quot;default&quot;:&quot;preview&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showStateBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const AG=[{n:'Story',d:'Analyzing your idea and building the story...',h:295},{n:'Motion',d:'Planning camera moves and animation flow...',h:255},{n:'Assets',d:'Generating and preparing visual assets...',h:205},{n:'Audio',d:'Designing sound, SFX and music...',h:335},{n:'Vision',d:'Compositing, lighting and applying style...',h:275},{n:'QC',d:'Final check and optimization...',h:165},{n:'Render',d:'Encoding and delivering the final cut...',h:70}];
+const ST=[['idle','Idle','Start directing'],['directing','Directing','Directing…'],['storyboard','Storyboard','Approve storyboard'],['generating','Generating','Generating…'],['preview','Preview','Approve & render'],['error','Error','Retry audio'],['done','Rendered','Download MP4']];
+const CODE={idle:'wwwwwww',storyboard:'dddwwww',generating:'ddddkww',preview:'dddddkw',error:'dddfwww',done:'ddddddd'};
+const NEXT={idle:'directing',directing:'storyboard',storyboard:'generating',generating:'preview',preview:'done',error:'generating',done:'done'};
+const BADGE={idle:['Empty','m'],directing:['Directing','a'],storyboard:['Storyboard · 6 scenes','a'],generating:['Generating','a'],preview:['Draft · 720p','m'],error:['Audio failed','e'],done:['Rendered · 1080p','g']};
+const SCENES=[['0s','Deep ocean, particles drift'],['3s','Light pulses below'],['5s','Energy sphere forms'],['8s','Whale silhouette emerges'],['11s','Whale breaches the surface'],['14s','Neon spray, brand reveal']].map((s,i)=>({n:i+1,t:s[0],c:s[1]}));
+const WAVE=Array.from({length:110},(_,i)=>Math.round(4+Math.abs(Math.sin(i*0.41)*Math.cos(i*0.13))*26+(i*7%5)));
+const PAL=['oklch(0.45 0.2 265)','oklch(0.62 0.22 295)','oklch(0.72 0.2 350)','oklch(0.78 0.13 230)','oklch(0.85 0.06 295)'];
+const SPIN=(s)=>React.createElement('span',{style:{width:s,height:s,borderRadius:'50%',border:'2px solid oklch(0.7 0.19 295 / .3)',borderTopColor:'oklch(0.7 0.19 295)',display:'inline-block',animation:'spin .8s linear infinite'}});
+const EX='A cinematic whale rising from the ocean, neon glow, 10 seconds';
+class Component extends DCLogic{
+  state={s:null,tab:'Content',style:0,color:1,media:0,t:11.85,playing:false,tick:0,gen:0,idea:''};
+  componentDidMount(){this.iv=setInterval(()=>this.loop(),100)}
+  componentWillUnmount(){clearInterval(this.iv)}
+  cur(){return this.state.s??this.props.initialState??'preview'}
+  go(s){this.setState({s,tick:0,gen:0,playing:false,t:s==='preview'||s==='done'?11.85:this.state.t,idea:s==='idle'?'':(this.state.idea||EX)})}
+  loop(){const s=this.cur(),u={};
+    if(this.state.playing){let t=this.state.t+0.1;if(t>=16){t=16;u.playing=false}u.t=t}
+    if(s==='directing')u.tick=Math.min(this.state.tick+1,245);
+    if(s==='generating')u.gen=this.state.gen>=100?100:this.state.gen+0.5;
+    if(Object.keys(u).length)this.setState(u)}
+  renderVals(){
+    const s=this.cur(),S=this.state,code=CODE[s];
+    const agents=AG.map((a,i)=>{let st,pct=0;
+      if(code){st={d:'done',w:'wait',k:'work',f:'fail'}[code[i]];if(st==='work')pct=s==='generating'?S.gen:64}
+      else{const tk=S.tick;if(i<4&&tk>=(i+1)*60)st='done';else if(i<4&&tk>=i*60){st='work';pct=(tk-i*60)/60*100}else st='wait'}
+      const h=a.h,fail=st==='fail',wait=st==='wait';
+      return{title:`${i+1}. ${a.n}`,d:a.d,isDone:st==='done',isWork:st==='work',isWait:wait,isFail:fail,pctW:pct+'%',
+        label:{done:'Done',work:`Working ${Math.round(pct)}%`,wait:'Waiting',fail:'Failed'}[st],
+        statusColor:fail?'oklch(0.78 0.15 25)':wait?'oklch(0.62 0.03 285)':'oklch(0.9 0.02 285)',
+        body:wait?`oklch(0.5 0.03 ${h})`:`oklch(0.8 0.11 ${h})`,eye:fail?'oklch(0.72 0.17 25)':wait?`oklch(0.6 0.04 ${h})`:`oklch(0.92 0.14 ${h})`,
+        eyeH:st==='done'?'2px':st==='work'?'7px':fail?'3px':'5px',tile:`oklch(0.24 ${wait?0.02:0.05} ${h} / .7)`,
+        rowBg:st==='work'?'oklch(0.22 0.04 290)':'oklch(0.2 0.02 285)',rowBorder:st==='work'?'oklch(0.55 0.15 295 / .7)':fail?'oklch(0.72 0.17 25 / .5)':'oklch(0.26 0.03 285)'}});
+    const workIdx=agents.findIndex(a=>a.isWork);
+    const tl=['storyboard','generating','preview','error','done'].includes(s);
+    const [bl,bk]=BADGE[s];const bc={m:['oklch(0.25 0.03 285)','oklch(0.8 0.03 285)'],a:['oklch(0.3 0.08 295)','oklch(0.88 0.08 295)'],e:['oklch(0.32 0.08 25)','oklch(0.88 0.08 25)'],g:['oklch(0.3 0.07 170)','oklch(0.9 0.1 170)']}[bk];
+    const pp=S.t/16*100,cs=Math.floor((S.t%1)*100),sec=Math.floor(S.t);
+    const busy=s==='directing'?S.tick<240:s==='generating'?S.gen<100:false;
+    const sel=(on)=>({bg:on?'oklch(0.27 0.05 292)':'transparent',border:on?'oklch(0.45 0.12 295 / .7)':'transparent',color:on?'oklch(0.96 0.01 285)':'oklch(0.72 0.03 285)'});
+    return{
+      showStateBar:this.props.showStateBar??true,
+      states:ST.map(([id,l],i)=>({num:i+1,label:l,...sel(id===s),go:()=>this.go(id)})),
+      agents,doneCount:agents.filter(a=>a.isDone).length,spinner:SPIN(14),spinnerLg:SPIN(36),
+      activeLine:workIdx>=0?`${AG[workIdx].n} agent · ${AG[workIdx].d}`:'Storyboard ready for review',
+      idea:S.idea,onIdea:e=>this.setState({idea:e.target.value}),inspire:()=>this.setState({idea:EX}),
+      inputBorder:s==='idle'?'oklch(0.6 0.17 295 / .8)':'oklch(0.28 0.03 285)',
+      badge:bl,badgeBg:bc[0],badgeColor:bc[1],
+      isIdle:s==='idle',isDirecting:s==='directing',isStoryboard:s==='storyboard',isGenerating:s==='generating',isPlayer:s==='preview'||s==='done',isError:s==='error',
+      genPct:Math.round(S.gen)+'%',genW:S.gen+'%',genScene:Math.min(6,Math.floor(S.gen/100*6)+1),
+      scenes:SCENES,hasTimeline:tl,noTimeline:!tl,ruler:['0s','2s','4s','6s','8s','10s','12s','14s','16s'],
+      wave:WAVE.map((h,i)=>({h:h+'px',c:i/WAVE.length*100<pp?'oklch(0.7 0.19 295)':'oklch(0.4 0.06 290)'})),
+      playPct:pp+'%',timeLabel:`00:${String(sec).padStart(2,'0')}.${String(cs).padStart(2,'0')}`,playIcon:S.playing?'❚❚':'▶',
+      togglePlay:()=>this.setState({playing:!S.playing,t:S.t>=16?0:S.t}),
+      seek:e=>{const r=e.currentTarget.getBoundingClientRect();this.setState({t:Math.max(0,Math.min(16,(e.clientX-r.left)/r.width*16))})},
+      tabs:['Content','Brand','Media'].map(l=>({label:l,...sel(l===S.tab),go:()=>this.setState({tab:l})})),
+      tabContent:S.tab==='Content',tabBrand:S.tab==='Brand',tabMedia:S.tab==='Media',
+      styles:['Cinematic','3D Render','Anime','Realistic','Abstract'].map((l,i)=>({label:l,ring:i===S.style?'oklch(0.72 0.19 295)':'transparent',go:()=>this.setState({style:i})})),
+      palette:PAL.map((c,i)=>({c,ring:i===S.color?'oklch(0.96 0.01 285)':'transparent',go:()=>this.setState({color:i})})),
+      mediaOpts:['Upload image','Use from library','Generate with AI'].map((l,i)=>({label:l,bg:i===S.media?'oklch(0.27 0.05 292)':'transparent',color:i===S.media?'oklch(0.96 0.01 285)':'oklch(0.72 0.03 285)',go:()=>this.setState({media:i})})),
+      ctaLabel:ST.find(x=>x[0]===s)[2],ctaOpacity:busy?0.5:1,
+      ctaBg:s==='error'?'oklch(0.96 0.01 285)':s==='done'?'oklch(0.84 0.14 170)':'oklch(0.76 0.15 295)',
+      cta:()=>{if(!busy&&s!=='done')this.go(NEXT[s])}
+    }}
+}
+</script>
+</body>
+</html>
