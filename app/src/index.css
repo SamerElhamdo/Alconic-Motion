@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  background: oklch(0.14 0.02 285);
+  color: oklch(0.96 0.01 285);
+  font-family: Geist, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: oklch(0.8 0.14 295); text-decoration: none; }
+a:hover { color: oklch(0.9 0.1 295); }
+textarea { font-family: inherit; }
+* { scrollbar-color: oklch(0.35 0.03 285) transparent; scrollbar-width: thin; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+.spinner {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid oklch(0.7 0.19 295 / .3);
+  border-top-color: oklch(0.7 0.19 295);
+  display: inline-block;
+  animation: spin .8s linear infinite;
+}
+.spinner-lg {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 3px solid oklch(0.7 0.19 295 / .3);
+  border-top-color: oklch(0.7 0.19 295);
+  display: inline-block;
+  animation: spin .8s linear infinite;
+}
+.skeleton {
+  border-radius: 6px;
+  background: oklch(0.22 0.02 285);
+  animation: pulse 1.5s ease-in-out infinite;
+}
